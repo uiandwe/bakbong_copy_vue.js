@@ -8,7 +8,7 @@
       </div>
       <div class="wrapper-body">
         <div class="month">2019.11</div>
-        <div class="money">203000</div>
+        <div class="money">{{paycheck}}</div>
         <div class="date">2019년 11월 23일 오후 11:50</div>
       </div>
     </div>
@@ -20,7 +20,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      paycheck : 0,
     }
   },
   components: {
@@ -30,7 +30,33 @@ export default {
   },
   created: function(){
     
+  },
+  methods: {
+    sum(a, b) {
+      return a + b;
+    },
+    paycheckTimer(){
+      var vm = this;
+      var now = new Date();
+      var paycheck = 2100000
+      var millisecond = 100 * 3600 * 24 * 30;
+    
+      // // 월급 <- 한달 == (100 * 3600 * 24 * 30),  / 100분의 1초 
+      var msPaycheck = parseFloat((paycheck / millisecond).toFixed(2))
+      
+      vm.paycheck = msPaycheck * 100 * 3600 * 24 * now.getDate();
+       
+      var playAlert = setInterval(function() {
+        vm.paycheck = parseFloat(vm.paycheck) + msPaycheck;
+        vm.paycheck = vm.paycheck.toFixed(2);
+      }, 10);      
+    }
+  },
+  mounted: function(){
+    this.paycheckTimer();
   }
+
+
 }
 </script>
 
